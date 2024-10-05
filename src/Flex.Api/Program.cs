@@ -1,7 +1,7 @@
 using Serilog;
+using System.Text.Json;
 using Flex.Api.Bootstraping;
 using Flex.Api.Middlewares;
-using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -30,8 +30,9 @@ try
     services.RegisterOptions(configuration);
     services.RegisterServices(configuration);
 
-    // Validators
+    // Utilities
     services.AddFluentValidation();
+    services.AddAutoMapper();
 
     // Data
     services.AddEntityFrameworkCore(configuration);

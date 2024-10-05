@@ -16,7 +16,7 @@ namespace Flex.Api.Controllers
             _authService = authService;
         }
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             try

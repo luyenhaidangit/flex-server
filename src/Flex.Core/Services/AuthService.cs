@@ -1,6 +1,7 @@
-﻿using System.Security.Claims;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using System.Security.Claims;
 using Flex.Core.Contracts.Services;
 using Flex.Core.Domain.Identity;
 using Flex.Core.Models.Identity;
@@ -15,13 +16,17 @@ namespace Flex.Core.Services
         private readonly SignInManager<User> _signInManager;
         private readonly Jwt _jwtSettings;
         private readonly ITokenService _tokenService;
+        private readonly IMapper _mapper;
 
-        public AuthService(UserManager<User> userManager, SignInManager<User> signInManager, ITokenService tokenService, IOptions<Jwt> jwtSettings)
+        public AuthService
+        (UserManager<User> userManager, SignInManager<User> signInManager, 
+        ITokenService tokenService, IOptions<Jwt> jwtSettings,IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
             _jwtSettings = jwtSettings.Value;
+            _mapper = mapper;
         }
 
         public async Task<LoginResponse> Login(LoginRequest request)
@@ -56,6 +61,7 @@ namespace Flex.Core.Services
             //Create token
             var token = _tokenService.CreateToken(claims);
             var expiresInSeconds = _jwtSettings.TokenValidityInSeconds;
+            var userInfo = _mapper.Map<UserInfo>(user);
             //var refreshToken = _tokenService.CreateRefreshToken();
 
             //var refreshTokenExpiryTime = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenValidityInDays);
@@ -65,7 +71,8 @@ namespace Flex.Core.Services
 
             //await _userManager.UpdateAsync(user);
 
-            return new LoginResponse(token, expiresInSeconds);
+
+            return new LoginResponse(token, expiresInSeconds, userInfo);
         }
     }
 }

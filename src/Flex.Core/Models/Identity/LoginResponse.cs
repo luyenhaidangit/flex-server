@@ -8,11 +8,14 @@
 
         public int ExpiresIn { get; set; }
 
-        public LoginResponse(string accessToken, int expiresIn, string tokenType = "Bearer")
+        public UserInfo UserInfo { get; set; }
+
+        public LoginResponse(string accessToken, int expiresIn,UserInfo userInfo, string tokenType = "Bearer")
         {
             AccessToken = accessToken;
             TokenType = tokenType;
             ExpiresIn = expiresIn;
+            UserInfo = userInfo;
         }
     }
 }
