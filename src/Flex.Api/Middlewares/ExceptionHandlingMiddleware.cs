@@ -52,6 +52,8 @@ namespace Flex.Api.Middlewares
                     return StatusCodes.Status400BadRequest;
                 case FormatException:
                     return StatusCodes.Status422UnprocessableEntity;
+                case ArgumentException:
+                    return StatusCodes.Status400BadRequest;
                 default:
                     return StatusCodes.Status500InternalServerError;
             }

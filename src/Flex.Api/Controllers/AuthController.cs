@@ -19,9 +19,16 @@ namespace Flex.Api.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var result = await _authService.Login(request);
+            try
+            {
+                var result = await _authService.Login(request);
 
-            return Ok(Result.Success("Đăng nhập thành công!", result));
+                return Ok(Result.Success("Đăng nhập thành công!", result));
+            } 
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

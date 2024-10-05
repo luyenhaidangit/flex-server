@@ -2,7 +2,7 @@
 {
     public class Message
     {
-        public const string Success = "Thành công";
-        public const string Failure = "Thất bại";
+        public const string Success = "Thành công!";
+        public const string Failure = "Thất bại!";
     }
 }

@@ -30,6 +30,9 @@ try
     services.RegisterOptions(configuration);
     services.RegisterServices(configuration);
 
+    // Validators
+    services.AddFluentValidation();
+
     // Data
     services.AddEntityFrameworkCore(configuration);
 
