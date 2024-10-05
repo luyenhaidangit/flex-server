@@ -18,13 +18,14 @@ namespace Flex.Data.Seeders
             }
 
             var adminEmail = "admin@flex.com";
+            var username = "admin";
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
             if (adminUser == null)
             {
                 var user = new User
                 {
-                    UserName = adminEmail,
+                    UserName = username,
                     Email = adminEmail,
                     EmailConfirmed = true
                 };

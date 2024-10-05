@@ -49,7 +49,7 @@ namespace Flex.Core.Services
                 new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtSettings.Key)),
                 SecurityAlgorithms.HmacSha256
             );
-            var expires = DateTime.UtcNow.AddMinutes(_jwtSettings.TokenValidityInMinutes);
+            var expires = DateTime.UtcNow.AddSeconds(_jwtSettings.TokenValidityInSeconds);
 
             var token = new JwtSecurityToken(
                 issuer: _jwtSettings.Issuer,

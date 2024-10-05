@@ -55,16 +55,17 @@ namespace Flex.Core.Services
 
             //Create token
             var token = _tokenService.CreateToken(claims);
-            var refreshToken = _tokenService.CreateRefreshToken();
+            var expiresInSeconds = _jwtSettings.TokenValidityInSeconds;
+            //var refreshToken = _tokenService.CreateRefreshToken();
 
-            var refreshTokenExpiryTime = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenValidityInDays);
+            //var refreshTokenExpiryTime = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenValidityInDays);
 
-            user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = refreshTokenExpiryTime;
+            //user.RefreshToken = refreshToken;
+            //user.RefreshTokenExpiryTime = refreshTokenExpiryTime;
 
-            await _userManager.UpdateAsync(user);
+            //await _userManager.UpdateAsync(user);
 
-            return new LoginResponse(token,refreshToken);
+            return new LoginResponse(token, expiresInSeconds);
         }
     }
 }

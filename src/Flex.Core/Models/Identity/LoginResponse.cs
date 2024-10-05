@@ -2,14 +2,17 @@
 {
     public class LoginResponse
     {
-        public string? AccessToken { get; set; }
+        public string AccessToken { get; set; }
 
-        public string? RefreshToken { get; set; }
+        public string TokenType { get; set; }
 
-        public LoginResponse(string? accessToken, string? refreshToken)
+        public int ExpiresIn { get; set; }
+
+        public LoginResponse(string accessToken, int expiresIn, string tokenType = "Bearer")
         {
             AccessToken = accessToken;
-            RefreshToken = refreshToken;
+            TokenType = tokenType;
+            ExpiresIn = expiresIn;
         }
     }
 }

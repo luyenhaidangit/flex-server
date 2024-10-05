@@ -7,7 +7,7 @@ namespace Flex.Core.Shared.Options
         public string Key { get; set; }
         public string Issuer { get; set; }
         public string Audience { get; set; }
-        public int TokenValidityInMinutes { get; set; }
+        public int TokenValidityInSeconds { get; set; }
         public int RefreshTokenValidityInDays { get; set; }
 
         public bool Validate()
