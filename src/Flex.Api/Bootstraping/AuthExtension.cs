@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Text;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Flex.Core.Domain.Identity;
 using Flex.Data;
+using Flex.Core.Shared.Constants.System;
 
 namespace Flex.Api.Bootstraping
 {
@@ -19,6 +23,30 @@ namespace Flex.Api.Bootstraping
                 options.Password.RequireNonAlphanumeric = false;
                 options.User.AllowedUserNameCharacters = null;
             }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+            return services;
+        }
+
+        public static IServiceCollection AddAuthJwt(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = configuration[AppSetting.JwtIssuer],
+                    ValidAudience = configuration[AppSetting.JwtAudience],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
+                };
+            });
 
             return services;
         }

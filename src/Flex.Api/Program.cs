@@ -39,6 +39,7 @@ try
 
     // Identity
     services.AddIdentityEntityFrameworkCore();
+    services.AddAuthJwt(configuration);
 
     builder.Services.AddControllers();
 
@@ -53,14 +54,19 @@ try
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
-        app.UseSwaggerUI();
+        app.UseSwaggerUI(c =>
+        {
+        });
     }
+
+    app.UseStaticFiles();
 
     // Logging
     app.UseMiddleware<LoggingMiddleware>();
 
     app.UseHttpsRedirection();
 
+    app.UseAuthentication();
     app.UseAuthorization();
 
     app.MapControllers();

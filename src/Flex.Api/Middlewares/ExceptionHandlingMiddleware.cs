@@ -1,4 +1,5 @@
-﻿using Flex.Core.Models.Common;
+﻿using Flex.Core.Exceptions;
+using Flex.Core.Models.Common;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 
@@ -48,6 +49,8 @@ namespace Flex.Api.Middlewares
             {
                 case BadHttpRequestException:
                     return StatusCodes.Status400BadRequest;
+                case UnauthorizedException:
+                    return StatusCodes.Status401Unauthorized;
                 case ValidationException:
                     return StatusCodes.Status400BadRequest;
                 case FormatException:

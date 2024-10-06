@@ -46,7 +46,7 @@ namespace Flex.Core.Services
         public string CreateToken(IEnumerable<Claim> claims)
         {
             var creds = new SigningCredentials(
-                new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtSettings.Key)),
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key)),
                 SecurityAlgorithms.HmacSha256
             );
             var expires = DateTime.UtcNow.AddSeconds(_jwtSettings.TokenValidityInSeconds);

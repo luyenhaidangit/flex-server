@@ -8,5 +8,7 @@
 
         // Jwt
         public const string Jwt = "Jwt";
+        public const string JwtIssuer = "Jwt:Issuer";
+        public const string JwtAudience = "Jwt:Audience";
     }
 }
