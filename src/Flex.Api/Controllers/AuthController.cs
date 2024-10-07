@@ -5,7 +5,6 @@ using Flex.Core.Exceptions;
 using Flex.Core.Models.Common;
 using Flex.Core.Models.Identity;
 using Flex.Core.Shared.Constants.Identity;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

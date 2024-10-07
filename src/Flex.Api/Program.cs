@@ -40,8 +40,10 @@ try
     // Identity
     services.AddIdentityEntityFrameworkCore();
     services.AddAuthJwt(configuration);
-
-    builder.Services.AddControllers();
+    services.AddCors(options =>
+    {
+        options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+    });
 
     var app = builder.Build();
 
@@ -66,9 +68,10 @@ try
 
     app.UseHttpsRedirection();
 
+    app.UseCors("AllowAll");
     app.UseAuthentication();
     app.UseAuthorization();
-
+    
     app.MapControllers();
 
     app.Run();
