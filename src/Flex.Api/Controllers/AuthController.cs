@@ -7,6 +7,7 @@ using Flex.Core.Models.Identity;
 using Flex.Core.Shared.Constants.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Flex.Api.Controllers
 {
@@ -33,6 +34,7 @@ namespace Flex.Api.Controllers
             return Ok(Result.Success("Đăng nhập thành công!", result));
         }
 
+        [Authorize]
         [HttpPost("user-profile")]
         public async Task<IActionResult> GetUserProfile()
         {
