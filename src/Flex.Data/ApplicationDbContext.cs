@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Flex.Core.Domain.Identity;
+using System.Reflection;
+using Flex.Core.Domain.System;
 
 #region Document
 /// <summary>
@@ -20,6 +22,10 @@ namespace Flex.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
+
+        #region DbSet
+        public virtual DbSet<Department> Departments { get; set; }
+        #endregion
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

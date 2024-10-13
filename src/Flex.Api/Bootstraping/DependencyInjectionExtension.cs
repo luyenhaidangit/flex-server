@@ -2,6 +2,7 @@
 using Flex.Core.Shared.Options;
 using Flex.Core.Shared.Constants.System;
 using AssemblyReferenceCore = Flex.Core.AssemblyReference;
+using AssemblyReferenceData = Flex.Data.AssemblyReference;
 using Flex.Api.Middlewares;
 
 namespace Flex.Api.Bootstraping
@@ -24,6 +25,19 @@ namespace Flex.Api.Bootstraping
         #endregion
         public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
+            // Repositories
+            var repositoryProjectNamespace = $"{AssemblyReferenceData.Assembly.GetName().Name}.Repositories";
+            var repositoryTypes = AssemblyReferenceData.Assembly.GetTypes().Where(type => type.Namespace == repositoryProjectNamespace && type.IsClass && type.GetInterfaces().Any() && !type.IsNested);
+
+            foreach (var type in repositoryTypes)
+            {
+                var interfaceType = type.GetInterfaces().FirstOrDefault(x => x.Name == $"I{type.Name}");
+                if (interfaceType != null)
+                {
+                    services.AddScoped(interfaceType, type);
+                }
+            }
+
             // Services
             var serviceProjectNamespace = $"{AssemblyReferenceCore.Assembly.GetName().Name}.Services";
             var serviceTypes = AssemblyReferenceCore.Assembly.GetTypes().Where(type => type.Namespace == serviceProjectNamespace && type.IsClass && type.GetInterfaces().Any() && !type.IsNested);
