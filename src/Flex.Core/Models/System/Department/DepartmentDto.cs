@@ -1,8 +1,8 @@
 ﻿using Flex.Core.Shared.Abstracts;
 
-namespace Flex.Core.Domain.System
+namespace Flex.Core.Models.System.Department
 {
-    public class Department : EntityBase
+    public class DepartmentDto : EntityBase
     {
         public string Name { get; set; }
 

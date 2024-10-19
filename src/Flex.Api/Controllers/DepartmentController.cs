@@ -1,14 +1,8 @@
-﻿using AutoMapper;
-using Flex.Core.Contracts.Data.Repositories;
-using Flex.Core.Contracts.Data.Services;
-using Flex.Core.Contracts.Services;
-using Flex.Core.Domain.Identity;
-using Flex.Core.Domain.System;
+﻿using Flex.Core.Contracts.Services;
 using Flex.Core.Models.Common;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+using Flex.Core.Models.System.Department;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+
 namespace Flex.Api.Controllers
 {
     [Route("api/[controller]")]
@@ -20,6 +14,14 @@ namespace Flex.Api.Controllers
         public DepartmentController(IDepartmentService departmentService)
         {
             _departmentService = departmentService;
+        }
+
+        [HttpGet("get-paging")]
+        public async Task<IActionResult> GetPaging([FromQuery] GetDepartmentPagedRequest request)
+        {
+            var result = await _departmentService.GetPaging(request);
+
+            return Ok(Result.Success("Lấy danh sách thành công!", result));
         }
     }
 }

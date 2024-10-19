@@ -1,6 +1,9 @@
-﻿namespace Flex.Core.Models.System.Department
+﻿using Flex.Core.Models.Common;
+
+namespace Flex.Core.Models.System.Department
 {
-    public class GetDepartmentPagedRequest
+    public class GetDepartmentPagedRequest : PagedRequest
     {
+        public string? Name { get; set; }
     }
 }

@@ -1,49 +1,34 @@
 ﻿namespace Flex.Core.Models.Common
 {
-    public class PagedResult<T>
+    public class PageResult<T>
     {
-        public PagedResult(List<T>? items, int pageIndex, int pageSize, int totalRecords, int totalPages)
-        {
-            Items = items;
-
-            PageIndex = pageIndex;
-
-            PageSize = pageSize;
-
-            TotalRecords = totalRecords;
-
-            TotalPages = totalPages;
-        }
-
-        public PagedResult(List<T>? items, int pageIndex, int pageSize, string? sortBy, string? orderBy, int totalRecords, int totalPages)
-        {
-            Items = items;
-
-            PageIndex = pageIndex;
-
-            PageSize = pageSize;
-
-            SortBy = sortBy;
-
-            OrderBy = orderBy;
-
-            TotalRecords = totalRecords;
-
-            TotalPages = totalPages;
-        }
-
-        public List<T>? Items { set; get; }
-
         public int PageIndex { get; set; }
-
         public int PageSize { get; set; }
+        public int TotalItems { get; set; }
+        public int TotalPages
+        {
+            get
+            {
+                return (int)Math.Ceiling((double)TotalItems / PageSize);
+            }
+        }
+        public bool HasPreviousPage => PageIndex > 1;
+        public bool HasNextPage => PageIndex < TotalPages;
+        public string OrderBy { get; set; }
+        public string SortBy { get; set; }
+        public IList<T> Items { get; set; }
 
-        public string? SortBy { get; set; }
-
-        public string? OrderBy { get; set; }
-
-        public int TotalRecords { get; set; }
-
-        public int TotalPages { get; set; }
+        public static PageResult<T> CreatePagedResult(int pageIndex,int pageSize,string order,string sort, int total, IList<T> items)
+        {
+            return new PageResult<T>
+            {
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                TotalItems = total,
+                OrderBy = order,
+                SortBy = sort,
+                Items = items
+            };
+        }
     }
 }

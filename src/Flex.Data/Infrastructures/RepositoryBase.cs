@@ -7,11 +7,11 @@ namespace Flex.Data.Infrastructures
     public class RepositoryBase<T, Key> : IRepository<T, Key> where T : class
     {
         private readonly DbSet<T> _dbSet;
-        protected readonly ApplicationDbContext _context;
+        protected readonly ApplicationDbContext _dbContext;
         public RepositoryBase(ApplicationDbContext context)
         {
             _dbSet = context.Set<T>();
-            _context = context;
+            _dbContext = context;
         }
         public void Add(T entity)
         {
