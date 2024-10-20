@@ -1,21 +1,17 @@
-﻿using AutoMapper;
+﻿using System.Linq.Dynamic.Core;
 using Flex.Core.Contracts.Data.Repositories;
 using Flex.Core.Domain.System;
 using Flex.Core.Extensions;
 using Flex.Core.Models.Common;
 using Flex.Core.Models.System.Department;
 using Flex.Data.Infrastructures;
-using System.Linq.Dynamic.Core;
 
 namespace Flex.Data.Repositories
 {
     public class DepartmentRepository : RepositoryBase<Department,int>, IDepartmentRepository
     {
-        private readonly IMapper _mapper;
-
-        public DepartmentRepository(ApplicationDbContext context, IMapper mapper) : base(context)
+        public DepartmentRepository(ApplicationDbContext context) : base(context)
         {
-            _mapper = mapper;
         }
 
         public async Task<PageResult<DepartmentDto>> GetPaging(GetDepartmentPagedRequest request)
@@ -29,7 +25,7 @@ namespace Flex.Data.Repositories
             }
 
             // Paging
-            var result = await query.ToPageResultAsync<Department, DepartmentDto>(request,_mapper);
+            var result = await query.ToPageResultAsync<Department, DepartmentDto>(request);
 
             return result;
         }

@@ -8,6 +8,13 @@ namespace Flex.Core.Extensions
 {
     public static class IQueryableExtension
     {
+        private static IMapper _mapper;
+
+        public static void ConfigureMapper(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
+
         public static async Task<PageResult<T>> ToPageResultAsync<T>(this IQueryable<T> query, PagedRequest request)
         {
             var totalItems = await query.CountAsync();
@@ -31,9 +38,9 @@ namespace Flex.Core.Extensions
             return PageResult<T>.CreatePagedResult(request.PageIndex,request.PageSize,request.OrderBy,request.SortBy,totalItems,items);
         }
 
-        public static async Task<PageResult<TDestination>> ToPageResultAsync<TSource, TDestination>(this IQueryable<TSource> query,PagedRequest request,IMapper mapper) // IMapper là tùy chọn
+        public static async Task<PageResult<TDestination>> ToPageResultAsync<TSource, TDestination>(this IQueryable<TSource> query,PagedRequest request)
         {
-            // Đếm tổng số phần tử
+            // Count the total number of elements
             var totalItems = await query.CountAsync();
 
             // Make arrangements if applicable
@@ -55,7 +62,7 @@ namespace Flex.Core.Extensions
 
             // Kiểm tra xem có cần map hay không
             IList<TDestination> resultItems;
-            if (typeof(TSource) == typeof(TDestination) || mapper == null)
+            if (typeof(TSource) == typeof(TDestination) || _mapper == null)
             {
                 // Nếu TSource và TDestination giống nhau hoặc không có mapper, trả về nguyên bản
                 resultItems = items.Cast<TDestination>().ToList();
@@ -63,7 +70,7 @@ namespace Flex.Core.Extensions
             else
             {
                 // Thực hiện map từ TSource sang TDestination
-                resultItems = mapper.Map<IList<TDestination>>(items);
+                resultItems = _mapper.Map<IList<TDestination>>(items);
             }
 
             // Trả về đối tượng PageResult<TDestination>
