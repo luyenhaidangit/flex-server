@@ -47,6 +47,8 @@ try
 
     var app = builder.Build();
 
+    ApplicationExtension.RegisterServiceInstance(app.Services);
+
     app.UseMiddleware<ExceptionHandlingMiddleware>();
 
     // Seeder

@@ -1,19 +1,16 @@
 ﻿using AutoMapper;
 using Flex.Core.Models.Common;
 using Flex.Core.Shared.Abstracts;
+using Flex.Core.Shared.Locators;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System.Linq.Dynamic.Core;
 
 namespace Flex.Core.Extensions
 {
     public static class IQueryableExtension
     {
-        private static IMapper _mapper;
-
-        public static void ConfigureMapper(IMapper mapper)
-        {
-            _mapper = mapper;
-        }
+        private static IMapper _mapper => ServiceLocator.Instance.GetRequiredService<IMapper>();
 
         public static async Task<PageResult<T>> ToPageResultAsync<T>(this IQueryable<T> query, PagedRequest request)
         {

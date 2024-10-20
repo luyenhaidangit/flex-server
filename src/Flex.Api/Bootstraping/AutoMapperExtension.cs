@@ -8,11 +8,6 @@ namespace Flex.Api.Bootstraping
         {
             services.AddAutoMapper(Core.AssemblyReference.Assembly);
 
-            // Config mapper for services
-            var mapper = services.BuildServiceProvider().GetRequiredService<IMapper>();
-
-            IQueryableExtension.ConfigureMapper(mapper);
-
             return services;
         }
     }
