@@ -24,15 +24,19 @@ namespace Flex.Core.Extensions
 
             if (!string.IsNullOrWhiteSpace(request.OrderBy))
             {
-                var sorting = $"{request.OrderBy} {request.SortBy}";
+                var sorting = $"{request.SortBy} {request.OrderBy}".Trim();
                 query = query.OrderBy(sorting);
             }
 
-            var items = await query.Skip((request.PageIndex - 1) * request.PageSize)
-                                   .Take(request.PageSize)
+            // Paging
+            if (request.PageIndex == null) request.PageIndex = 1;
+            if (request.PageSize == null) request.PageSize = totalItems;
+
+            var items = await query.Skip((request.PageIndex.Value - 1) * request.PageSize.Value)
+                                   .Take(request.PageSize.Value)
                                    .ToListAsync();
 
-            return PageResult<T>.CreatePagedResult(request.PageIndex,request.PageSize,request.OrderBy,request.SortBy,totalItems,items);
+            return PageResult<T>.CreatePagedResult(request.PageIndex.Value,request.PageSize.Value,request.OrderBy,request.SortBy,totalItems,items);
         }
 
         public static async Task<PageResult<TDestination>> ToPageResultAsync<TSource, TDestination>(this IQueryable<TSource> query,PagedRequest request)
@@ -48,13 +52,17 @@ namespace Flex.Core.Extensions
 
             if (!string.IsNullOrWhiteSpace(request.OrderBy))
             {
-                var sorting = $"{request.OrderBy} {request.SortBy}".Trim();
+                var sorting = $"{request.SortBy} {request.OrderBy}".Trim();
                 query = query.OrderBy(sorting);
             }
 
+            // Paging
+            if (request.PageIndex == null) request.PageIndex = 1;
+            if (request.PageSize == null) request.PageSize = totalItems;
+
             // Lấy các phần tử trong trang hiện tại
-            var items = await query.Skip((request.PageIndex - 1) * request.PageSize)
-                                   .Take(request.PageSize)
+            var items = await query.Skip((request.PageIndex.Value - 1) * request.PageSize.Value)
+                                   .Take(request.PageSize.Value)
                                    .ToListAsync();
 
             // Kiểm tra xem có cần map hay không
@@ -72,8 +80,8 @@ namespace Flex.Core.Extensions
 
             // Trả về đối tượng PageResult<TDestination>
             return PageResult<TDestination>.CreatePagedResult(
-                request.PageIndex,
-                request.PageSize,
+                request.PageIndex.Value,
+                request.PageSize.Value,
                 request.OrderBy,
                 request.SortBy,
                 totalItems,
@@ -82,8 +90,8 @@ namespace Flex.Core.Extensions
 
         public static IQueryable<T> ApplyPaging<T>(this IQueryable<T> query, PagedRequest pagedRequest)
         {
-            return query.Skip((pagedRequest.PageIndex - 1) * pagedRequest.PageSize)
-                        .Take(pagedRequest.PageSize);
+            return query.Skip((pagedRequest.PageIndex.Value - 1) * pagedRequest.PageSize.Value)
+                        .Take(pagedRequest.PageSize.Value);
         }
 
         public static IQueryable<T> ApplySorting<T>(this IQueryable<T> query, PagedRequest pagedRequest)
