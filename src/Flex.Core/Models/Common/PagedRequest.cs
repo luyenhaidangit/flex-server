@@ -6,8 +6,18 @@
 
         public int? PageSize { get; set; }
 
-        public string? OrderBy { get; set; }
+        private string? _orderBy;
+        public string? OrderBy
+        {
+            get => _orderBy;
+            set => _orderBy = value?.Trim().ToUpper();
+        }
 
-        public string? SortBy { get; set; }
+        private string? _sortBy;
+        public string? SortBy
+        {
+            get => _sortBy;
+            set => _sortBy = value?.Trim().ToUpper();
+        }
     }
 }

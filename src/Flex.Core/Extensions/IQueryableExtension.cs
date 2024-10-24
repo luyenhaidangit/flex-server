@@ -24,7 +24,7 @@ namespace Flex.Core.Extensions
 
             if (!string.IsNullOrWhiteSpace(request.OrderBy))
             {
-                var sorting = $"{request.SortBy} {request.OrderBy}".Trim();
+                var sorting = $"{request.OrderBy} {request.SortBy}".Trim();
                 query = query.OrderBy(sorting);
             }
 
@@ -52,7 +52,7 @@ namespace Flex.Core.Extensions
 
             if (!string.IsNullOrWhiteSpace(request.OrderBy))
             {
-                var sorting = $"{request.SortBy} {request.OrderBy}".Trim();
+                var sorting = $"{request.OrderBy} {request.SortBy}".Trim();
                 query = query.OrderBy(sorting);
             }
 
